@@ -6,9 +6,10 @@ import * as yup from "yup";
 import { notiValidation } from "../../common/notiValidation";
 import { authService } from "../../services/auth.service";
 import { NotificationContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 const FormRegister = () => {
-  const notificationValue = useContext(NotificationContext)
-  console.log(notificationValue)
+  const { handleNotification } = useContext(NotificationContext)
+  const navigate = useNavigate()
   // let validationRegister = yup.object({
   //   name: yup.string().required(notiValidation.empty).matches(/^[A-Za-zÀ-ỹà-ỹ]+$/, "Vui lòng nhập tên không chứa số"),
   //   email: yup.string().required(notiValidation.empty).email(notiValidation.email),
@@ -50,10 +51,15 @@ const FormRegister = () => {
         .signUp({ ...values, gender: values.gender == "Nam" ? true : false })
         .then((res) => {
           console.log(res);
+          // B1. Thực hiện thông báo cho người dùng
+          handleNotification("Chúc mừng tạo tài khoản thành công, bạn sẽ được chuyển hướng về đăng nhập", "success")
+          setTimeout(() => {
+            navigate("/dang-nhap")
+          }, 2000)
         })
         .catch((err) => {
           console.log(err);
-          notificationValue.handleNotification(err.response.data.content, "error")
+          handleNotification(err.response.data.content, "error")
         });
     },
     validationSchema: yup.object({
