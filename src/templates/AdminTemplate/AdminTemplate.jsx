@@ -27,9 +27,7 @@ const AdminTemplate = () => {
     dataLocal.user.role !== "ADMIN" ? window.location.href = "https://google.com" : null
   }, [])
 
-  useEffect(() => {
-    dispatch(getValueUserApi())
-  }, [])
+
 
   return (
     <Layout className='min-h-screen'>
@@ -43,7 +41,7 @@ const AdminTemplate = () => {
             {
               key: '1',
               icon: <UserOutlined />,
-              label: <Link>Người dùng</Link>,
+              label: <Link to={"/admin/manager-user"}>Người dùng</Link>,
             },
             {
               key: '2',
